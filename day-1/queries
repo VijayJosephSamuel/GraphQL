@@ -27,3 +27,13 @@ query getUserById{
     }
   }
 }
+
+query getUserById($userID: ID){
+  user(id:$userID){
+    firstName,
+    lastName,
+    comments{
+      comment
+    }
+  }
+}
