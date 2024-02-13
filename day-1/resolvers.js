@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 
+console.log("hello from resolver")
 const User = mongoose.model("User")
 const Quote = mongoose.model("Quote")
 

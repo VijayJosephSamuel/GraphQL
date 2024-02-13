@@ -19,4 +19,5 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+console.log("hello from User");
 mongoose.model("User", userSchema)
