@@ -20,6 +20,15 @@ const typeDefs = gql`
     comment: String
     by: String
   }
+
+  type Mutation{
+    signup(
+        firstName:String,
+        lastName:String,
+        email:String,
+        password:String
+    ):User
+  }
 `;
 
 export default typeDefs;

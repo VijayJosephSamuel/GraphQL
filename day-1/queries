@@ -37,3 +37,11 @@ query getUserById($userID: ID){
     }
   }
 }
+
+mutation{
+  signup(firstName:"vijay", lastName:"Samuel",email:"test@test.com", password:"pass"){
+    id,
+    firstName,
+    lastName
+  }
+}

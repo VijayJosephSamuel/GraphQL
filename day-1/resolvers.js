@@ -1,4 +1,5 @@
 import { comments, users } from "./fakerusers.js";
+import { randomBytes } from "crypto";
 
 const resolvers = {
     Query: {
@@ -10,6 +11,13 @@ const resolvers = {
     },
     User:{
       comments:(ur)=> comments.filter(comment=>comment.by == ur.id)
+    },
+    Mutation:{
+        signup:(_,{firstName, lastName, email, password}) =>{
+            const id = randomBytes(5).toString("hex")
+            users.push({id,firstName,lastName,email,password})
+            return users.find(user => user.id == id);
+        }
     }
   };
 

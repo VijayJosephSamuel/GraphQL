@@ -10,5 +10,9 @@ const server = new ApolloServer({
 });
 
 server.listen().then(({ url }) => {
-  console.log(`server is ready ${url}`);
+  console.log(`
+  █▀ █▀▀ █▀█ █░█ █▀▀ █▀█   █ █▀   █▀█ █░█ █▄░█ █▄░█ █ █▄░█ █▀▀
+  ▄█ ██▄ █▀▄ ▀▄▀ ██▄ █▀▄   █ ▄█   █▀▄ █▄█ █░▀█ █░▀█ █ █░▀█ █▄█
+  
+  at - ${url}`);
 });
