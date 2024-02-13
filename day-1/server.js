@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import resolvers from "./resolvers.js";
+
 import typeDefs from "./schemaGql.js";
 import {MONGO_URI} from "./config.js"
 import mongoose from "mongoose";
@@ -19,6 +19,10 @@ mongoose.connection.on("error", ()=>{
     console.log(connectionfail)
 })
 
+import './models/User.js'
+import './models/Quotes.js'
+import resolvers from "./resolvers.js";
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -27,5 +31,5 @@ const server = new ApolloServer({
 
 server.listen().then(({ url }) => {
   console.log(serverrunning);
-  console.log(`${url}`);
+  console.log(`\n  ${url}`);
 });

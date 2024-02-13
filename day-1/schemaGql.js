@@ -3,13 +3,13 @@ const typeDefs = gql`
   type Query {
     greet: String
     users: [User]
-    user(id:ID):[User]
+    user(_id:ID):[User]
     comment(by:ID):[Comment]
     comments: [Comment]
   }
 
   type User {
-    id: ID
+    _id: ID
     firstName: String
     lastName: String
     email: String
