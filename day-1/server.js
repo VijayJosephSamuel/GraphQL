@@ -6,6 +6,8 @@ const typeDefs = gql`
   type Query {
     greet: String
     users: [User]
+    user(id:ID):[User]
+    comment(by:ID):[Comment]
     comments: [Comment]
   }
 
@@ -14,6 +16,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
+    comments:[Comment]
   }
 
   type Comment {
@@ -25,9 +28,14 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     greet: () => "Welcome to GraphQL",
+    user:(_,args) => users.filter(user=> user.id == args.id),
+    comment:(_,args) => comments.filter(comment => comment.by == args.by),
     users: () => users,
     comments: () => comments,
   },
+  User:{
+    comments:(ur)=> comments.filter(comment=>comment.by == ur.id)
+  }
 };
 
 const server = new ApolloServer({

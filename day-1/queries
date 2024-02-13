@@ -1,0 +1,29 @@
+query getCommentById{
+  comment(by:"101"){
+    by,
+    comment
+  }
+}
+
+query getUserById{
+  user(id:"101"){
+    firstName,
+    lastName,
+    comments{
+      comment
+    }
+  }
+}
+
+# Write your query or mutation here
+{
+  users{
+    firstName,
+    lastName,
+    id,
+    email,
+    comments{
+      comment
+    }
+  }
+}

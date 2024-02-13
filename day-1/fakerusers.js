@@ -7,7 +7,7 @@ export const users = [
         password:"abcd"
     },
     {
-        id:"102",
+        id:"101",
         firstName: "mukesh2",
         lastName:"kumar2",
         email:"m@gmail.com2",
@@ -43,6 +43,6 @@ export const comments = [
     },
     {
         comment:"bad",
-        by:"102"
+        by:"101"
     },
 ]
