@@ -13,9 +13,10 @@ const resolvers = {
       comments:(ur)=> comments.filter(comment=>comment.by == ur.id)
     },
     Mutation:{
-        signup:(_,{firstName, lastName, email, password}) =>{
+        signup:(_,{userNew}) =>{
+            console.log('usernew', userNew)
             const id = randomBytes(5).toString("hex")
-            users.push({id,firstName,lastName,email,password})
+            users.push({id,...userNew})
             return users.find(user => user.id == id);
         }
     }
