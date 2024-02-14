@@ -70,3 +70,17 @@ query params
     "password":"pass"
   }
 }
+
+mutation addComment($userComment:UserCommentInput){
+  addcomment(userComment:$userComment){
+ 		comment
+    by
+  }
+}
+
+{
+  "userComment":{
+    "comment":"this is a comment 2.",
+    "by":"65cc427d5e2b000687f6e6b9"
+  }
+}

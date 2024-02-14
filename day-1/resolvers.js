@@ -51,19 +51,15 @@ const resolvers = {
             
         },
 
-        addcomment: async(_, {userComment}) =>{
+        addcomment: async(_, {userComment}, {userId}) =>{
             console.log('userComment', userComment)
-            // const userId = JWT.decode(userComment.token).userId
-            // const user = await User.findOne({_id:userId})
+            console.log('userId', userId)
 
-            // if(!user){
-            //     throw new Error("Invalid JWT Token")
-            // }
+            if(!userId) throw new Error('User is not logged in')
 
-            // console.log(user)
             const newComment = new Quote({
-                comment: userComment.comment,
-                by: userComment.by
+                comment: userComment,
+                by: userId
             })
             return await newComment.save();
         },
