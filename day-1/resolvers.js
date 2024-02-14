@@ -16,14 +16,12 @@ const resolvers = {
       comments:(ur)=> comments.filter(comment=>comment.by == ur._id)
     },
     Mutation:{
-        // signup:(_,{userNew}) =>{
-        //     console.log('usernew', userNew)
-        //     const id = randomBytes(5).toString("hex")
-        //     users.push({id,...userNew})
-        //     return users.find(user => user._id == id);
-        // }
         signup: async(_, {userNew}) => {
             console.log('usernew', userNew)
+            const user = User.findOne({email:userNew.email})
+            if(user){
+                throw new Error("User already exists");
+            }
             const newUser = new User({
                 ...userNew
             })
