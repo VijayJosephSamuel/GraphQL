@@ -7,6 +7,7 @@ const typeDefs = gql`
     comment(by:ID):[Comment]
     comments: [CommentWithName]
     posts: [PostWithName]
+    post(by:ID):[Post]
   }
 
   type User {

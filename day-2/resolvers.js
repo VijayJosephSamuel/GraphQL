@@ -14,18 +14,20 @@ const resolvers = {
     comment: async (_, args) => await Quote.find({ by: args.by }),
     users: async () => await User.find({}),
     comments: async () => {
-      const comments = await Quote.find().populate("by");
+      const comments = await Quote.find().populate("by","_id firstName");
       console.log("comments", comments);
       return comments;
     },
+    post: async (_, args) => await Post.find({ by: args.by }),
     posts: async () => {
-      const posts = await Post.find().populate("by");
+      const posts = await Post.find().populate("by","_id firstName");
       console.log("posts", posts);
       return posts;
     },
   },
   User: {
     comments: async (ur) => await Quote.find({ by: ur._id }),
+    posts: async (ur) => await Post.find({ by: ur._id }),
   },
   Mutation: {
     signup: async (_, { userNew }) => {
