@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
+import bcrypt from "bcryptjs";
 
-console.log("hello from resolver")
 const User = mongoose.model("User")
 const Quote = mongoose.model("Quote")
 
@@ -22,8 +22,11 @@ const resolvers = {
             if(user){
                 throw new Error("User already exists");
             }
+
+            const hp = await bcrypt.hash(userNew.password, 12)
             const newUser = new User({
-                ...userNew
+                ...userNew,
+                password:hp
             })
             return await newUser.save();
         }
