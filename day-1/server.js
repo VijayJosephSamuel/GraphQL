@@ -27,11 +27,14 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context:({req})=>{
-    console.log('req', req.headers.token)
-    const authorization = req.headers.token
+    const {authorization} = req.headers
     if(authorization){
-      const {userId} = JWT.verify(authorization, JWT_SECRET)
-      return {userId}
+      try {
+        const {userId} = JWT.verify(authorization, JWT_SECRET)
+        return {userId}
+      } catch (error) {
+        throw new Error('User not logged in..')
+      }
     }
   },
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
