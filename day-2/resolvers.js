@@ -3,71 +3,93 @@ import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
 import { JWT_SECRET } from "./config.js";
 
-const User = mongoose.model("User")
-const Quote = mongoose.model("Quote")
+const User = mongoose.model("User");
+const Quote = mongoose.model("Quote");
+const Post = mongoose.model("Post");
 
 const resolvers = {
-    Query: {
-      greet: () => "Welcome to GraphQL",
-      user: async (_,args) => await User.find({_id: args._id}),
-      comment: async (_,args) => await Quote.find({by: args.by}),
-      users:async  () => await User.find({}),
-      comments:async () =>  {
-        const comments = await Quote.find().populate("by")
-        console.log("comments", comments)
-        return comments
+  Query: {
+    greet: () => "Welcome to GraphQL",
+    user: async (_, args) => await User.find({ _id: args._id }),
+    comment: async (_, args) => await Quote.find({ by: args.by }),
+    users: async () => await User.find({}),
+    comments: async () => {
+      const comments = await Quote.find().populate("by");
+      console.log("comments", comments);
+      return comments;
     },
+    posts: async () => {
+      const posts = await Post.find().populate("by");
+      console.log("posts", posts);
+      return posts;
     },
-    User:{
-      comments:async(ur)=> await Quote.find({by:ur._id})
+  },
+  User: {
+    comments: async (ur) => await Quote.find({ by: ur._id }),
+  },
+  Mutation: {
+    signup: async (_, { userNew }) => {
+      console.log("usernew", userNew);
+      const user = await User.findOne({ email: userNew.email });
+      if (user) {
+        throw new Error("User already exists");
+      }
+
+      const hp = await bcrypt.hash(userNew.password, 12);
+      const newUser = new User({
+        ...userNew,
+        password: hp,
+      });
+      return await newUser.save();
     },
-    Mutation:{
-        signup: async(_, {userNew}) => {
-            console.log('usernew', userNew)
-            const user = await User.findOne({email:userNew.email})
-            if(user){
-                throw new Error("User already exists");
-            }
 
-            const hp = await bcrypt.hash(userNew.password, 12)
-            const newUser = new User({
-                ...userNew,
-                password:hp
-            })
-            return await newUser.save();
-        },
-    
-        signin: async(_, {userCred}) => {
-            console.log('userCred', userCred)
-            const user = await User.findOne({email:userCred.email})
-            if(!user){
-                throw new Error("User does not exist.");
-            }
+    signin: async (_, { userCred }) => {
+      console.log("userCred", userCred);
+      const user = await User.findOne({ email: userCred.email });
+      if (!user) {
+        throw new Error("User does not exist.");
+      }
 
-            const isValidUser = await bcrypt.compare(userCred.password, user.password)
-            console.log('isvalid', isValidUser)
-            if(!isValidUser){
-                throw new Error("Invalid Credentials");
-            }
+      const isValidUser = await bcrypt.compare(
+        userCred.password,
+        user.password
+      );
+      console.log("isvalid", isValidUser);
+      if (!isValidUser) {
+        throw new Error("Invalid Credentials");
+      }
 
-            const token = JWT.sign({userId: user._id}, JWT_SECRET)
-            return {token};
-            
-        },
+      const token = JWT.sign({ userId: user._id }, JWT_SECRET);
+      return { token };
+    },
 
-        addcomment: async(_, {userComment}, {userId}) =>{
-            console.log('userComment', userComment)
-            console.log('userId', userId)
+    addcomment: async (_, { userComment }, { userId }) => {
+      console.log("userComment", userComment);
+      console.log("userId", userId);
 
-            if(!userId) throw new Error('User is not logged in')
+      if (!userId) throw new Error("User is not logged in");
 
-            const newComment = new Quote({
-                comment: userComment,
-                by: userId
-            })
-            return await newComment.save();
-        },
-    }
-  };
+      const newComment = new Quote({
+        comment: userComment,
+        by: userId,
+      });
+      return await newComment.save();
+    },
+
+    addpost: async (_, { userPost }, { userId }) => {
+      console.log("userPost", userPost);
+      console.log("userId", userId);
+
+      if (!userId) throw new Error("User is not logged in");
+
+      const newPost = new Post({
+        details: userPost.details,
+        type: userPost.type,
+        by: userId,
+      });
+      return await newPost.save();
+    },
+  },
+};
 
 export default resolvers;

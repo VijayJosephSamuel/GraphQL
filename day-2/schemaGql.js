@@ -6,6 +6,7 @@ const typeDefs = gql`
     user(_id:ID):[User]
     comment(by:ID):[Comment]
     comments: [CommentWithName]
+    posts: [PostWithName]
   }
 
   type User {
@@ -14,6 +15,7 @@ const typeDefs = gql`
     lastName: String
     email: String
     comments:[Comment]
+    posts:[Post]
   }
 
   type Comment {
@@ -21,10 +23,17 @@ const typeDefs = gql`
     by: String
   }
 
+  type Post {
+    by: String
+    type: String
+    details: String
+  }
+
   type Mutation{
     signup(userNew: UserInput):User
     signin(userCred: UserCred):Token
     addcomment(userComment: String):Comment
+    addpost(userPost: UserPost):Post
   }
 
   type Token{
@@ -44,13 +53,25 @@ const typeDefs = gql`
   }
 
   type CommentWithName {
-    comment:String
+    by: IdName
+    type: String
+    details: String
+  }
+  
+  type PostWithName {
+    type: String
+    details: String
     by:IdName
   }
 
   type IdName{
     _id: String
     firstName:String
+  }
+
+  input UserPost{
+    type:String,
+    details:String
   }
 `;
 
