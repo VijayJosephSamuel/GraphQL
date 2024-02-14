@@ -5,7 +5,7 @@ const typeDefs = gql`
     users: [User]
     user(_id:ID):[User]
     comment(by:ID):[Comment]
-    comments: [Comment]
+    comments: [CommentWithName]
   }
 
   type User {
@@ -41,6 +41,16 @@ const typeDefs = gql`
   input UserCred{
     email:String,
     password:String
+  }
+
+  type CommentWithName {
+    comment:String
+    by:IdName
+  }
+
+  type IdName{
+    _id: String
+    firstName:String
   }
 `;
 

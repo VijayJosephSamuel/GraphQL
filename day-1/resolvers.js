@@ -10,9 +10,13 @@ const resolvers = {
     Query: {
       greet: () => "Welcome to GraphQL",
       user: async (_,args) => await User.find({_id: args._id}),
-      comment: async (_,args) =>await Quote.find({by: args.by}),
+      comment: async (_,args) => await Quote.find({by: args.by}),
       users:async  () => await User.find({}),
-      comments:async () =>  await Quote.find({}),
+      comments:async () =>  {
+        const comments = await Quote.find().populate("by")
+        console.log("comments", comments)
+        return comments
+    },
     },
     User:{
       comments:async(ur)=> await Quote.find({by:ur._id})
