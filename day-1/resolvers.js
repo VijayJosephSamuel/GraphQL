@@ -15,7 +15,7 @@ const resolvers = {
       comments:async () =>  await Quote.find({}),
     },
     User:{
-      comments:(ur)=> Quote.find({by:ur._id})
+      comments:async(ur)=> await Quote.find({by:ur._id})
     },
     Mutation:{
         signup: async(_, {userNew}) => {
