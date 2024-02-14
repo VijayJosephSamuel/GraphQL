@@ -45,7 +45,7 @@ const typeDefs = gql`
 
   input UserCommentInput{
     comment: String
-    token: String
+    by: String
   }
 `;
 
