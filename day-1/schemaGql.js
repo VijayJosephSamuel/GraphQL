@@ -24,6 +24,7 @@ const typeDefs = gql`
   type Mutation{
     signup(userNew: UserInput):User
     signin(userCred: UserCred):Token
+    addcomment(userComment: UserCommentInput):Comment
   }
 
   type Token{
@@ -40,6 +41,11 @@ const typeDefs = gql`
   input UserCred{
     email:String,
     password:String
+  }
+
+  input UserCommentInput{
+    comment: String
+    token: String
   }
 `;
 

@@ -49,7 +49,19 @@ const resolvers = {
             const token = JWT.sign({userId: user._id}, JWT_SECRET)
             return {token};
             
-        }
+        },
+
+        addcomment: async(_, {userComment}) =>{
+            console.log('userComment', userComment)
+            const userId = JWT.decode(userComment.token).userId
+            const user = await User.findOne({_id:userId})
+            console.log(user)
+            const newComment = new Quote({
+                comment: userComment.comment,
+                by: userId
+            })
+            return await newComment.save();
+        },
     }
   };
 

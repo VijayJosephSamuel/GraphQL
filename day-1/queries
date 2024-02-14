@@ -45,3 +45,28 @@ mutation{
     lastName
   }
 }
+
+mutation signin($userCred:UserCred){
+  signin(userCred:$userCred){
+ 		token
+  }
+}
+
+
+query params
+
+{
+  "userNew":{
+    "firstName":"kalaivani",
+    "lastName":"kalaivani",
+    "email":"hello@a234",
+    "password":"pass"
+  }
+}
+
+{
+  "userCred":{
+    "email":"hello@a234",
+    "password":"pass"
+  }
+}
