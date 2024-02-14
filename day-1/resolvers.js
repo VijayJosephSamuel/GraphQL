@@ -1,5 +1,7 @@
 import mongoose, { mongo } from "mongoose";
 import bcrypt from "bcryptjs";
+import JWT from "jsonwebtoken";
+import { JWT_SECRET } from "./config.js";
 
 const User = mongoose.model("User")
 const Quote = mongoose.model("Quote")
@@ -44,7 +46,8 @@ const resolvers = {
                 throw new Error("Invalid Credentials");
             }
 
-            return user;
+            const token = JWT.sign({userId: user._id}, JWT_SECRET)
+            return {token};
             
         }
     }
