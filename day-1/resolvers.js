@@ -29,6 +29,23 @@ const resolvers = {
                 password:hp
             })
             return await newUser.save();
+        },
+    
+        signin: async(_, {userCred}) => {
+            console.log('userCred', userCred)
+            const user = await User.findOne({email:userCred.email})
+            if(!user){
+                throw new Error("User does not exist.");
+            }
+
+            const isValidUser = await bcrypt.compare(userCred.password, user.password)
+            console.log('isvalid', isValidUser)
+            if(!isValidUser){
+                throw new Error("Invalid Credentials");
+            }
+
+            return user;
+            
         }
     }
   };

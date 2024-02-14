@@ -23,11 +23,17 @@ const typeDefs = gql`
 
   type Mutation{
     signup(userNew: UserInput):User
+    signin(userCred: UserCred):User
   }
 
   input UserInput{
     firstName:String,
     lastName:String,
+    email:String,
+    password:String
+  }
+
+  input UserCred{
     email:String,
     password:String
   }
