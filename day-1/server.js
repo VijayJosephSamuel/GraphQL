@@ -33,7 +33,7 @@ const server = new ApolloServer({
         const {userId} = JWT.verify(authorization, JWT_SECRET)
         return {userId}
       } catch (error) {
-        throw new Error('User not logged in..')
+        throw new Error('User not logged in..') 
       }
     }
   },

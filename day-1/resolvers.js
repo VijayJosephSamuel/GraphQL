@@ -9,13 +9,13 @@ const Quote = mongoose.model("Quote")
 const resolvers = {
     Query: {
       greet: () => "Welcome to GraphQL",
-      user:(_,args) => users.filter(user=> user._id == args._id),
-      comment:(_,args) => comments.filter(comment => comment.by == args.by),
-      users: () => users,
-      comments: () => comments,
+      user: async (_,args) => await User.find({_id: args._id}),
+      comment: async (_,args) =>await Quote.find({by: args.by}),
+      users:async  () => await User.find({}),
+      comments:async () =>  await Quote.find({}),
     },
     User:{
-      comments:(ur)=> comments.filter(comment=>comment.by == ur._id)
+      comments:(ur)=> Quote.find({by:ur._id})
     },
     Mutation:{
         signup: async(_, {userNew}) => {
