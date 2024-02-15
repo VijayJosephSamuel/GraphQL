@@ -5,7 +5,13 @@ var { buildSchema } = require("graphql");
 var schema = buildSchema(
   `
     type Query {
+        data:Developer
+    }
+
+    type Developer{
         name:String
+        email:[String]
+        exp:Int
     }
     `
 );
@@ -13,6 +19,16 @@ var resolver = {
   name: () => {
     return "Administrator";
   },
+  email: () => {
+    return "admin@gmail.com"
+  },
+  data:()=>{
+    return {
+        name:"vijay",
+        email:["hi@hi.com", "hello@hello.com"],
+        exp:5
+    }
+  }
 };
 
 var app = express();
