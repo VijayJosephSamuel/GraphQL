@@ -1,8 +1,14 @@
+import { useMutation } from '@apollo/client'
 import React,{useState} from 'react'
 import {Link} from 'react-router-dom'
+import { SIGNUP_USER } from '../gqlOperations/mutations'
 export default function Signup() {
     const [formData,setFormData] = useState({})
-    
+    const [signupUser,{data, loading, error}] = useMutation(SIGNUP_USER)
+
+    if(loading) return <h3>Loading...</h3>
+    if(data) {console.log(data)}
+
     const handleChange = (e)=>{
         setFormData({
          ...formData,
@@ -14,9 +20,22 @@ export default function Signup() {
     const handleSubmit = (e)=>{
         e.preventDefault()
         console.log(formData)
+        signupUser({
+            variables:{
+                userNew: formData
+            }
+        })
     }
     return (
         <div className="container my-container">
+            {
+                error && 
+                <div className='red card-panel'>{error.message}</div>
+            }
+            {
+                data && data.signup &&
+                <div className='green card-panel'>{data.signup.firstName} is Signed up!, you can login now.</div>
+            }
             <h5>Signup!!</h5>
             <form onSubmit={handleSubmit}>
                 <input
